@@ -1,0 +1,141 @@
+/*Carrossel 1*/
+section.slider{
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.slide1 {
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+
+/*2 Botões*/
+.container-butão {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px;
+}
+
+.custom-button {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+  margin-top: 10px;
+  border: none;
+  border-top: 2px solid #ccc;
+}
+
+/*Destaques*/
+.sessao-titulo {
+  text-align: center;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+
+/* Carrossel Destaques - container e itens */
+.carrossel-destaques-container {
+  max-width: 100%;
+  width: 100%;
+  padding: 0 !important;
+}
+
+.carrossel-destaques-position {
+  height: 300px; /* aumenta a área do carrossel */
+}
+
+.carrossel-destaques-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  height: 300px; /* aumenta a área de rolagem */
+  align-items: center;
+}
+
+.carrossel-destaques-item {
+  width: 260px;
+  height: 220px;
+  background-color: #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Barra de rolagem personalizada */
+.scroll-smooth::-webkit-scrollbar {
+  height: 20px; /* aumenta a barra horizontal */
+  width: 20px;
+}
+
+.scroll-smooth::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.scroll-smooth::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Ajuste da imagem */
+.img-carrossel {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Espaçamento maior entre as imagens do carrossel */
+.carrossel-destaques-gap > .carrossel-destaques-item {
+  margin-right: 60px;
+}
+
+.carrossel-destaques-gap > .carrossel-destaques-item:last-child {
+  margin-right: 0;
+}
+
+
+.card {
+  padding: 0;
+  margin: 0;
+}
+
+.card-body {
+  padding-bottom: 2.5rem;
+}
+
+.card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px !important;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  display: block;
+  background: #eee;
+}
+
+.produtos-scroll {
+  max-height: 700px; /* ajuste a altura conforme desejar */
+  overflow-y: auto;
+  padding-right: 20px; /* espaço para a barra de rolagem */
+}

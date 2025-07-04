@@ -1,0 +1,177 @@
+<div class="checkout_container">
+  <div class="checkout_content">
+
+    <nav style="--bs-breadcrumb-divider: '>';" class="navegation" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item nav_link"><a href="#">Carrinho</a></li>
+        <li class="breadcrumb-item nav_link"><a href="#">Informações</a></li>
+        <li class="breadcrumb-item nav_link"><a href="#">Frete</a></li>
+        <li class="breadcrumb-item nav_link"><a href="#">Pagamento</a></li>
+      </ol>
+    </nav>
+
+    <div class="contact">
+      <p class="section-title">Contato</p>
+      <input [(ngModel)]="dadosFinais.contato" placeholder="Digite seu email" required class="input-field">
+
+      <div class="divider"></div>
+
+      <p class="section-title">Enviar para</p>
+      <input [(ngModel)]="dadosFinais.endereco.logradouro" placeholder="Endereço" required class="input-field">
+      <div class="flex-group">
+        <input [(ngModel)]="dadosFinais.endereco.numero" placeholder="Número" required class="input-field small-input">
+        <input [(ngModel)]="dadosFinais.endereco.cep" placeholder="CEP" required class="input-field large-input">
+      </div>
+      <div class="flex-group">
+        <input [(ngModel)]="dadosFinais.endereco.cidade" placeholder="Cidade" required class="input-field medium-input">
+        <input [(ngModel)]="dadosFinais.endereco.estado" placeholder="Estado" required class="input-field medium-input">
+      </div>
+    </div>
+
+    <div class="frete">
+      <h5>Forma de Frete</h5>
+      <label class="radio-label">
+        <input type="radio" name="entrega" [(ngModel)]="dadosFinais.entrega" value="padrão" (change)="alterarTotal()">
+        <span class="radio-text">Envio Padrão</span>
+        <span class="radio-price free">Grátis</span>
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="entrega" [(ngModel)]="dadosFinais.entrega" value="express" (change)="alterarTotal()">
+        <span class="radio-text">Total Express</span>
+        <span class="radio-price">R$20,99</span>
+      </label>
+    </div>
+
+    <div class="pagamento">
+      <h5>Pagamento</h5>
+      <p class="payment-info">Todas as transações são seguras e criptografadas</p>
+      <label class="radio-label">
+        <input type="radio" name="pagamento" [(ngModel)]="dadosFinais.pagamento" value="pix">
+        <span class="radio-text">Pix</span>
+        <img src="https://placehold.co/40x20/ffffff/000000?text=PIX" alt="Pix logo" class="payment-logo" />
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="pagamento" [(ngModel)]="dadosFinais.pagamento" value="boleto">
+        <span class="radio-text">Boleto Bancário</span>
+        <img src="https://placehold.co/40x20/ffffff/000000?text=BOLETO" alt="Boleto logo" class="payment-logo" />
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="pagamento" [(ngModel)]="dadosFinais.pagamento" value="credito">
+        <span class="radio-text">Cartão de Crédito</span>
+        <img src="https://placehold.co/40x20/ffffff/000000?text=VISA" alt="Visa logo" class="payment-logo" />
+      </label>
+    </div>
+
+    <button (click)="finalizeCompra()" class="finish-button">Finalizar a Compra</button>
+    <a href="#" class="back-link">&lt; Voltar para informações</a>
+
+    <div class="footer-links">
+      <a href="#">Política de reembolso</a>
+      <a href="#">Política de frete</a>
+      <a href="#">Política de privacidade</a>
+      <a href="#">Termos de serviço</a>
+    </div>
+  </div>
+
+  <div class="checkout_summary">
+    <div class="item">
+      <div class="item-details">
+        <div class="item-image-container">
+          <img src="https://placehold.co/60x80/e0e0e0/333333?text=Vestido" alt="Vestido Midi" class="item-image" />
+          <span class="item-quantity">1</span>
+        </div>
+        <div>
+          <p class="item-name">Vestido Midi - Preta / M</p>
+          <p class="item-variant">Preta / M</p>
+          <p class="item-discount"><span class="discount-dot"></span>PRIDE10 (-26,25)</p>
+        </div>
+      </div>
+      <div class="item-price">
+        <span class="original-price">R$ 175,00</span>
+        <span class="current-price">R$ 148,75</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <div class="item-image-container">
+          <img src="https://placehold.co/60x80/e0e0e0/333333?text=Saia" alt="Saia casual" class="item-image" />
+          <span class="item-quantity">1</span>
+        </div>
+        <div>
+          <p class="item-name">Saia casual, social - Preta / P</p>
+          <p class="item-variant">Preta / P</p>
+          <p class="item-discount"><span class="discount-dot"></span>PRIDE10 (-34,35)</p>
+        </div>
+      </div>
+      <div class="item-price">
+        <span class="original-price">R$ 229,00</span>
+        <span class="current-price">R$ 194,65</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <div class="item-image-container">
+          <img src="https://placehold.co/60x80/e0e0e0/333333?text=Eco-bag" alt="Brinde Exclusivo" class="item-image" />
+          <span class="item-quantity">1</span>
+        </div>
+        <div>
+          <p class="item-name">Brinde Exclusivo - Eco-bag</p>
+          <p class="item-variant">SEU PEDIDO INCLUIRÁ UMA ECO-BAG</p>
+        </div>
+      </div>
+      <div class="item-price">
+        <span class="original-price">R$ 148,75</span>
+        <span class="current-price">Grátis</span>
+      </div>
+    </div>
+
+    <div class="coupon-section">
+      <input [(ngModel)]="dadosFinais.cupom" placeholder="Cupom de desconto ou Gift Card" class="coupon-input">
+      <button (click)="aplicarCupom()" class="coupon-button">Aplicar</button>
+    </div>
+    <p *ngIf="message.text" [ngClass]="{'success-message': message.type === 'success', 'error-message': message.type === 'error'}">
+      {{ message.text }}
+    </p>
+
+    <div class="problem-section">
+      <img src="https://placehold.co/60x60/f0f0f0/333333?text=?" alt="Question mark icon" class="problem-icon" />
+      <div>
+        <p class="problem-text">Teve problemas ao finalizar o pedido?</p>
+        <a href="#" class="problem-link">Reporte o problema nesse formulário.</a>
+      </div>
+    </div>
+
+    <div class="total-summary">
+      <div class="total-row">
+        <p class="total-label">Subtotal: <span class="item-count">(2 itens)</span></p>
+        <p class="total-value">R$ {{ dadosFinais.subtotal.toFixed(2) }}</p>
+      </div>
+      <div class="total-row">
+        <p class="total-label">Frete:</p>
+        <p class="total-value">
+          {{dadosFinais.frete > 0 ? ('R$' + dadosFinais.frete.toFixed(2)): 'Grátis' }}
+        </p>
+      </div>
+      <div class="total-row final-total">
+        <p class="total-label"><strong>Total:</strong></p>
+        <p class="total-value"><strong>BRL R$ {{ dadosFinais.total.toFixed(2) }}</strong></p>
+      </div>
+      <p *ngIf="dadosFinais.desconto > 0" class="total-economy">
+        <svg xmlns="http://www.w3.org/2000/svg" class="economy-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        ECONOMIA TOTAL R$ {{ dadosFinais.desconto.toFixed(2) }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Modal -->
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <p class="modal-message">{{ modalContent }}</p>
+    <button (click)="closeModal()" class="modal-button">OK</button>
+  </div>
+</div>

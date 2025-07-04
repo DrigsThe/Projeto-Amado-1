@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HomeComponent } from "./home/home.component";
+import { VendedorPerfilComponent } from './vendedor-perfil/vendedor-perfil.component';
+import { ProdutoComponent } from "./produto/produto.component";
+import { FinalCompraComponent } from "./final-compra/final-compra.component";
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [HomeComponent, VendedorPerfilComponent, ProdutoComponent, FinalCompraComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'ecommerce-amado';
