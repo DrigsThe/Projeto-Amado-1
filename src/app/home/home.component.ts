@@ -1,177 +1,260 @@
-import { Component } from '@angular/core';
-import { ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// @ts-ignore
-import Toast from 'bootstrap/js/dist/toast';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+interface Produto {
+  id: number;
+  nome: string;
+  preco: number;
+  imagem: string;
+  categoria: string[];
+}
+
+interface CategoriaItem {
+  id: string;
+  nome: string;
+}
+
+interface Categoria {
+  nome: string;
+  itens: CategoriaItem[];
+}
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css',]
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
+  // Carrossel principal
+  currentSlide = 0;
+  slides = [1, 2, 3]; // Array para indicadores
+  carouselInterval: any;
 
-  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
-  @ViewChild('toastCarrinho', { static: false }) toastCarrinho!: ElementRef;
-
-
-  imagens = [
-    'assets/bicho.png', 
-    'assets/Gary.jpg', 
-    'assets/guardachuva.png',   
-    'assets/avatar.jpg',
-    'assets/amy.png',
-    'assets/dedo.png',
-    'assets/hornet.png',
+  // Imagens do carrossel de destaques
+  imagens: string[] = [
     'assets/jujuba.png',
-    'assets/camisa.png',
-    'assets/clash.jpg',
-    'assets/gato.png',
-    'assets/gay.png',
-  ];             
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+    'assets/jujuba.png',
+  ];
 
-  scrollLeft() {
-    this.scrollContainer.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
-  }
-
-  scrollRight() {
-    this.scrollContainer.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
-  }
-
-  categoriasSelecionadas: string[] = [];
-  produtosFiltrados: any[] = [];
-
-  categorias = [
+  // Dados dos produtos
+  produtos: Produto[] = [
     {
-      nome: 'Pride',
+      id: 1,
+      nome: 'Vestido Midi Elegante',
+      preco: 148.75,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Vestidos', 'Feminino', 'Elegante']
+    },
+    {
+      id: 2,
+      nome: 'Saia Casual Social',
+      preco: 194.65,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Saias', 'Feminino', 'Casual']
+    },
+    {
+      id: 3,
+      nome: 'Blusa Estampada',
+      preco: 89.90,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Blusas', 'Feminino', 'Estampada']
+    },
+    {
+      id: 4,
+      nome: 'Calça Skinny',
+      preco: 125.00,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Calças', 'Feminino', 'Skinny']
+    },
+    {
+      id: 5,
+      nome: 'Jaqueta Jeans',
+      preco: 180.00,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Jaquetas', 'Feminino', 'Jeans']
+    },
+    {
+      id: 6,
+      nome: 'Shorts Comfort',
+      preco: 65.50,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Shorts', 'Feminino', 'Comfort']
+    },
+    {
+      id: 7,
+      nome: 'Macaquinho Floral',
+      preco: 135.75,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Macacões', 'Feminino', 'Floral']
+    },
+    {
+      id: 8,
+      nome: 'Cardigan Tricot',
+      preco: 98.90,
+      imagem: 'assets/jujuba.png',
+      categoria: ['Cardigans', 'Feminino', 'Tricot']
+    }
+  ];
+
+  // Categorias para filtros
+  categorias: Categoria[] = [
+    {
+      nome: 'Tipo',
       itens: [
-        { id: 'cat1', nome: 'Botton'},
-        { id: 'cat2', nome: 'Ecobag' },
-        { id: 'cat3', nome: 'Bandeira' },
-        { id: 'cat4', nome: 'Camiseta' },
-        { id: 'cat5', nome: 'Poster' },
+        { id: 'vestidos', nome: 'Vestidos' },
+        { id: 'saias', nome: 'Saias' },
+        { id: 'blusas', nome: 'Blusas' },
+        { id: 'calcas', nome: 'Calças' },
+        { id: 'jaquetas', nome: 'Jaquetas' },
+        { id: 'shorts', nome: 'Shorts' },
+        { id: 'macacoes', nome: 'Macacões' },
+        { id: 'cardigans', nome: 'Cardigans' }
       ]
     },
-
     {
-      nome: 'Tema',
+      nome: 'Estilo',
       itens: [
-        { id: 'cat6', nome: 'Lésbicas' },
-        { id: 'cat7', nome: 'Gays' },
-        { id: 'cat8', nome: 'Bissexuais' },
-        { id: 'cat9', nome: 'Trans' },
-        { id: 'cat10', nome: 'Assexuais' },
-        { id: 'cat11', nome: 'LGBT+' },
-        { id: 'cat12', nome: 'Não-Binários' },
-        { id: 'cat13', nome: 'Panssexuais' },
+        { id: 'elegante', nome: 'Elegante' },
+        { id: 'casual', nome: 'Casual' },
+        { id: 'estampada', nome: 'Estampada' },
+        { id: 'skinny', nome: 'Skinny' },
+        { id: 'jeans', nome: 'Jeans' },
+        { id: 'comfort', nome: 'Comfort' },
+        { id: 'floral', nome: 'Floral' },
+        { id: 'tricot', nome: 'Tricot' }
       ]
     },
-
     {
-      nome: 'Acessórios',
+      nome: 'Preço',
       itens: [
-        { id: 'cat14', nome: 'Meia' },
-        { id: 'cat15', nome: 'Óculos' },
-        { id: 'cat16', nome: 'Pulseira' },
-        { id: 'cat17', nome: 'Pingente' },
-        { id: 'cat18', nome: 'Chapéu' },
+        { id: 'ate-100', nome: 'Até R$ 100' },
+        { id: '100-150', nome: 'R$ 100 - R$ 150' },
+        { id: '150-200', nome: 'R$ 150 - R$ 200' },
+        { id: 'acima-200', nome: 'Acima de R$ 200' }
       ]
     }
   ];
 
-  produtos = [
-  {
-    nome: 'Amy Rose',
-    preco: 199.90,
-    categoria: ['Lesbicas', 'Pulseira'],
-    imagem: 'assets/amy.png'
-  },
-  {
-    nome: 'Avatar',
-    preco: 89.90,
-    categoria: ['Poster', 'Trans'],
-    imagem: 'assets/avatar.jpg'
-  },
-  {
-    nome: 'Bicho Papão',
-    preco: 49.90,
-    categoria: ['Meia', 'Assexuais'],
-    imagem: 'assets/bicho.png'
-  },
-  {
-    nome: 'Camisa do Capeta',
-    preco: 299.00,
-    categoria: ['Camiseta', 'Gays'],
-    imagem: 'assets/camisa.png'
-  },
-  {
-    nome: 'Amor de Clash',
-    preco: 159.90,
-    categoria: ['Bandeira', 'Não-Binarios'],
-    imagem: 'assets/clash.jpg'
-  },
-  {
-    nome: 'Dedo Assassino',
-    preco: 79.90,
-    categoria: ['LGBT+', 'Botton', 'Camiseta'],
-    imagem: 'assets/dedo.png'
-  },
-  {
-    nome: 'O Mais Gostoso',
-    preco: 129.90,
-    categoria: ['Bissexuais', 'Panssexuais'],
-    imagem: 'assets/Gary.jpg'
-  },
-  {
-    nome: 'Miau',
-    preco: 59.90,
-    categoria: ['Óculos', 'Lesbicas'],
-    imagem: 'assets/gato.png'
-  },
-  {
-    nome: 'Viados',
-    preco: 129.90,
-    categoria: ['Gays', 'Panssexuais', 'Bissexuais', 'Pulseira', 'Chapéu'],
-    imagem: 'assets/gay.png'
-  },
-];
+  // Filtros selecionados
+  filtrosSelecionados: string[] = [];
+  produtosFiltrados: Produto[] = [];
 
-  constructor() {
-    this.produtosFiltrados = this.produtos;
+  // Toast notification
+  showToast = false;
+  toastTimeout: any;
+
+  ngOnInit(): void {
+    this.produtosFiltrados = [...this.produtos];
+    this.startCarouselAutoplay();
   }
 
-onCategoriaChange(event: any) {
-    const categoria = event.target.value;
-    if (event.target.checked) {
-      this.categoriasSelecionadas.push(categoria);
+  ngOnDestroy(): void {
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
+    }
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+  }
+
+  // Métodos do carrossel principal
+  startCarouselAutoplay(): void {
+    this.carouselInterval = setInterval(() => {
+      this.nextSlide();
+    }, 4000);
+  }
+
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  }
+
+  previousSlide(): void {
+    this.currentSlide = this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+  }
+
+  // Método para filtrar produtos
+  onCategoriaChange(event: any): void {
+    const valor = event.target.value.toLowerCase();
+    const checked = event.target.checked;
+
+    if (checked) {
+      this.filtrosSelecionados.push(valor);
     } else {
-      this.categoriasSelecionadas = this.categoriasSelecionadas.filter(c => c !== categoria);
+      this.filtrosSelecionados = this.filtrosSelecionados.filter(f => f !== valor);
     }
-    this.filtrarProdutos();
+
+    this.aplicarFiltros();
   }
 
-  filtrarProdutos() {
-  if (this.categoriasSelecionadas.length === 0) {
-    this.produtosFiltrados = this.produtos;
-  } else {
-    this.produtosFiltrados = this.produtos.filter(produto =>
-      produto.categoria.some((cat: string) => this.categoriasSelecionadas.includes(cat))
-    );
-  }
-}
-
-comprar(produto: any) {
-    if (this.toastCarrinho) {
-      // @ts-ignore
-      const toast = new Toast(this.toastCarrinho.nativeElement, { delay: 2000 }); // 2 segundos
-      toast.show();
+  aplicarFiltros(): void {
+    if (this.filtrosSelecionados.length === 0) {
+      this.produtosFiltrados = [...this.produtos];
+      return;
     }
-    // Aqui você pode adicionar lógica para adicionar ao carrinho
+
+    this.produtosFiltrados = this.produtos.filter(produto => {
+      return this.filtrosSelecionados.some(filtro => {
+        // Verifica se o filtro está nas categorias do produto
+        if (produto.categoria.some(cat => cat.toLowerCase().includes(filtro))) {
+          return true;
+        }
+
+        // Verifica filtros de preço
+        if (filtro === 'ate-100' && produto.preco <= 100) {
+          return true;
+        }
+        if (filtro === '100-150' && produto.preco > 100 && produto.preco <= 150) {
+          return true;
+        }
+        if (filtro === '150-200' && produto.preco > 150 && produto.preco <= 200) {
+          return true;
+        }
+        if (filtro === 'acima-200' && produto.preco > 200) {
+          return true;
+        }
+
+        return false;
+      });
+    });
   }
 
+  // Método para comprar produto
+  comprar(produto: Produto): void {
+    console.log('Produto adicionado ao carrinho:', produto);
+    this.showToastNotification();
+  }
 
+  // Métodos do toast
+  showToastNotification(): void {
+    this.showToast = true;
+    
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    
+    this.toastTimeout = setTimeout(() => {
+      this.hideToast();
+    }, 3000);
+  }
 
-
-
+  hideToast(): void {
+    this.showToast = false;
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+  }
 }

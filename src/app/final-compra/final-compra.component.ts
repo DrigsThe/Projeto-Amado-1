@@ -1,25 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-// Define a interface DadosFinais para tipagem dos dados
-interface DadosFinais {
-  contato: string;
-  endereco: {
-    logradouro: string;
-    numero: string;
-    cep: string;
-    cidade: string;
-    estado: string;
-  };
-  pagamento: string;
-  entrega: string;
-  subtotal: number;
-  total: number;
-  cupom: string;
-  desconto: number;
-  frete: number;
-}
+import { DadosFinais } from '../interfaces/dados-finais';
+import { Produtos } from '../interfaces/produtos'
 
 @Component({
   selector: 'app-final-compra',
@@ -29,38 +12,74 @@ interface DadosFinais {
   styleUrls: ['./final-compra.component.css'],
 })
 export class FinalCompraComponent implements OnInit {
+  produtos: Produtos[] = [
+    {
+      nome: 'Vestido Midi - Preta / M',
+      preco: 148.75,
+      quantidade: 1,
+      imagemUrl: 'assets/jujuba.png',
+      variant: 'Preta / M',
+      originalPrice: 175.0,
+      discountInfo: 'PRIDE10 (-26,25)',
+    },
+    {
+      nome: 'Saia casual, social - Preta / P',
+      preco: 194.65,
+      quantidade: 1,
+      imagemUrl: 'assets/hornet.png',
+      variant: 'Preta / P',
+      originalPrice: 229.0,
+      discountInfo: 'PRIDE10 (-34,35)',
+    },
+    {
+      nome: 'Brinde Exclusivo - Eco-bag',
+      preco: 0,
+      quantidade: 1,
+      imagemUrl: 'assets/gato.png',
+      variant: 'SEU PEDIDO INCLUIRÁ UMA ECO-BAG',
+      isFree: true,
+    },
+  ];
 
   dadosFinais: DadosFinais = {
-    contato: 'teste@teste.com',
+    contato: '',
     endereco: {
       logradouro: '',
       numero: '',
       cep: '',
       cidade: '',
-      estado: ''
+      estado: '',
     },
     pagamento: '',
-    entrega: 'padrão', // Padrão para frete grátis inicial
-    subtotal: 343.40,
-    total: 343.40,
+    entrega: 'padrão', 
+    subtotal: 0, 
+    total: 0, 
     cupom: '',
     desconto: 0,
-    frete: 0
+    frete: 0,
   };
 
-  message: { text: string, type: string } = { text: '', type: '' }; // Para mensagens de cupom
+  message: { text: string; type: string } = { text: '', type: '' }; // Para mensagens de cupom
   showModal: boolean = false; // Para controlar a visibilidade do modal customizado
   modalContent: string = ''; // Conteúdo do modal customizado
 
   ngOnInit(): void {
-    // Inicializa o total e frete quando o componente é carregado
+    this.calcularSubtotal();
     this.alterarTotal();
+  }
+
+  calcularSubtotal(): void {
+    this.dadosFinais.subtotal = this.produtos.reduce(
+      (acc, produto) => acc + produto.preco * produto.quantidade,
+      0
+    );
   }
 
   /**
    * Exibe um modal customizado com a mensagem fornecida.
    * @param content A mensagem a ser exibida no modal.
    */
+
   showCustomModal(content: string): void {
     this.modalContent = content;
     this.showModal = true;
@@ -81,8 +100,13 @@ export class FinalCompraComponent implements OnInit {
   aplicarCupom(): void {
     let newDesconto = 0;
     if (this.dadosFinais.cupom.toUpperCase() === 'PRIDE10') {
-      newDesconto = 60.60;
-      this.message = { text: `Cupom aplicado: ${this.dadosFinais.cupom} - Economia de R$ ${newDesconto.toFixed(2)}`, type: 'success' };
+      newDesconto = 60.6;
+      this.message = {
+        text: `Cupom aplicado: ${
+          this.dadosFinais.cupom
+        } - Economia de R$ ${newDesconto.toFixed(2)}`,
+        type: 'success',
+      };
     } else {
       newDesconto = 0;
       this.message = { text: 'Cupom inválido.', type: 'error' };
@@ -95,8 +119,9 @@ export class FinalCompraComponent implements OnInit {
    * Altera o valor do frete e recalcula o total da compra.
    */
   alterarTotal(): void {
-    this.dadosFinais.frete = this.dadosFinais.entrega === 'express' ? 20.20 : 0;
-    this.dadosFinais.total = this.dadosFinais.subtotal - this.dadosFinais.desconto + this.dadosFinais.frete;
+    this.dadosFinais.frete = this.dadosFinais.entrega === 'express' ? 20.2 : 0;
+    this.dadosFinais.total =
+      this.dadosFinais.subtotal - this.dadosFinais.desconto + this.dadosFinais.frete;
   }
 
   /**
@@ -104,7 +129,14 @@ export class FinalCompraComponent implements OnInit {
    * Exibe um modal de sucesso ou erro.
    */
   finalizeCompra(): void {
-    if (!this.dadosFinais.contato || !this.dadosFinais.endereco.logradouro || !this.dadosFinais.endereco.numero || !this.dadosFinais.endereco.cep || !this.dadosFinais.endereco.cidade || !this.dadosFinais.endereco.estado) {
+    if (
+      !this.dadosFinais.contato ||
+      !this.dadosFinais.endereco.logradouro ||
+      !this.dadosFinais.endereco.numero ||
+      !this.dadosFinais.endereco.cep ||
+      !this.dadosFinais.endereco.cidade ||
+      !this.dadosFinais.endereco.estado
+    ) {
       this.showCustomModal('Por favor, preencha todos os campos obrigatórios!');
       return;
     }
