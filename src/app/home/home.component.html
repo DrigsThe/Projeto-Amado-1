@@ -6,7 +6,7 @@
         <img src="assets/guardachuva.png" class="slide-image" alt="Slide 1">
       </div>
       <div class="carousel-slide">
-        <img src="assets/guardachuva.png" class="slide-image" alt="Slide 2">
+        <img src="assets/avatar.jpg" class="slide-image" alt="Slide 2">
       </div>
       <div class="carousel-slide">
         <img src="assets/guardachuva.png" class="slide-image" alt="Slide 3">
@@ -20,14 +20,7 @@
       <span>&#8250;</span>
     </button>
     
-    <div class="carousel-indicators">
-      <button 
-        *ngFor="let slide of slides; let i = index" 
-        class="indicator" 
-        [class.active]="i === currentSlide"
-        (click)="goToSlide(i)">
-      </button>
-    </div>
+    
   </div>
 </section>
 

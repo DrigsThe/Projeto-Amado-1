@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   startCarouselAutoplay(): void {
     this.carouselInterval = setInterval(() => {
       this.nextSlide();
-    }, 4000);
+    }, 6000);
   }
 
   nextSlide(): void {

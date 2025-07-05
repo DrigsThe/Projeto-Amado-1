@@ -1,7 +1,6 @@
+// produto.component.ts
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// @ts-ignore
-import Toast from 'bootstrap/js/dist/toast';
 
 @Component({
   selector: 'app-produto',
@@ -25,12 +24,12 @@ export class ProdutoComponent {
   imagemSelecionada: number = 0;
 
   cores: { nome: string, valor: string }[] = [
-  { nome: 'Preto', valor: 'black' },
-  { nome: 'Branco', valor: 'white' },
-  { nome: 'Azul', valor: 'blue' },
-  { nome: 'Vermelho', valor: 'red' }
-];
-corSelecionada: { nome: string, valor: string } = this.cores[0];
+    { nome: 'Preto', valor: 'black' },
+    { nome: 'Branco', valor: 'white' },
+    { nome: 'Azul', valor: 'blue' },
+    { nome: 'Vermelho', valor: 'red' }
+  ];
+  corSelecionada: { nome: string, valor: string } = this.cores[0];
 
   quantidade: number = 1;
 
@@ -45,11 +44,23 @@ corSelecionada: { nome: string, valor: string } = this.cores[0];
   }
 
   comprar() {
-  if (this.toastCarrinho) {
-    // @ts-ignore
-    const toast = new Toast(this.toastCarrinho.nativeElement, { delay: 2000 });
-    toast.show();
+    if (this.toastCarrinho) {
+      // Adicionar classe show para exibir o toast
+      this.toastCarrinho.nativeElement.classList.add('show');
+      
+      // Remover a classe após 2 segundos
+      setTimeout(() => {
+        if (this.toastCarrinho) {
+          this.toastCarrinho.nativeElement.classList.remove('show');
+        }
+      }, 2000);
+    }
+    // Aqui você pode adicionar lógica para adicionar ao carrinho
   }
-  // Aqui você pode adicionar lógica para adicionar ao carrinho
-}
+
+  fecharToast() {
+    if (this.toastCarrinho) {
+      this.toastCarrinho.nativeElement.classList.remove('show');
+    }
+  }
 }
