@@ -51,15 +51,22 @@
 
       <!-- Menu de navegação -->
       <nav class="profile-nav">
-        <button 
-          *ngFor="let tab of tabs" 
-          [class.active]="activeTab() === tab.id"
-          (click)="setActiveTab(tab.id)"
-          class="nav-item">
-          <span class="nav-icon">{{ tab.icon }}</span>
-          <span class="nav-label">{{ tab.label }}</span>
-        </button>
-      </nav>
+  <button 
+    *ngFor="let tab of tabs" 
+    [class.active]="activeTab() === tab.id"
+    (click)="setActiveTab(tab.id)"
+    class="nav-item">
+    <span class="nav-icon">{{ tab.icon }}</span>
+    <span class="nav-label">{{ tab.label }}</span>
+  </button>
+  
+  <!-- Adicione este botão novo -->
+  <button class="nav-item become-seller-btn" (click)="becomeSeller()">
+    <span class="nav-icon">💼</span>
+    <span class="nav-label">Torne-se um vendedor</span>
+  </button>
+</nav>
+      
     </div>
 
     <!-- Conteúdo principal -->

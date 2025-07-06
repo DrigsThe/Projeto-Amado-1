@@ -156,4 +156,10 @@ onFileSelected(event: Event): void {
     const fileInput = document.getElementById('avatarInput') as HTMLInputElement;
     fileInput.click();
   }
+
+  becomeSeller(): void {
+  // Lógica para transformar o usuário em vendedor
+  console.log('Usuário quer se tornar vendedor');
+  // Exemplo: this.router.navigate(['/seller-registration']);
+}
 }

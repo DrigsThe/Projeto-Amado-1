@@ -526,3 +526,18 @@
   margin-bottom: 12px;
   font-size: 0.95rem;
 }
+/* Estilo específico para o botão de vendedor */
+.become-seller-btn {
+  margin-top: 10px;
+  background: linear-gradient(to right, #FF218C , #FFD800 , #21B1FF);
+  color: white;
+}
+
+.become-seller-btn:hover {
+  background: linear-gradient(to right, #fc3293 , #ffdf2b , #46beff);
+}
+
+/* Opcional: ícone diferente */
+.become-seller-btn .nav-icon {
+  font-size: 1.1rem;
+}
